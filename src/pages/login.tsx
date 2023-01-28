@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { UserAuthCard } from "@ory/elements";
 import { LoginFlow, UpdateLoginFlowBody } from "@ory/client";
 
-import { ory, QueryParams, useHandleError } from "@/lib/ory";
+import { ory, QueryParams, useHandleError } from "@/lib";
 import { AxiosError } from "axios";
 
 const LoginPage: NextPage = () => {

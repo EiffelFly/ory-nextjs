@@ -7,5 +7,6 @@ export {
   getOAuth2ConsentRequest,
   acceptOAuth2ConsentRequest,
   getRedirectToOAuth2LoginUrl,
+  exchangeAccessToken,
 } from "./oauth";
 export { getRedirectToLoginUrl, getSessionWhoAmI } from "./identity";
