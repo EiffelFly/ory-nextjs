@@ -85,9 +85,9 @@ ory tunnel --dev --project {project.slug} \
   http://localhost:3000
 ```
 
+### Issues
 
-
-
+- When access admin endpoint, the request will fall with 401 code even with correct personal token, You need to use ory-project-url but this will further cause CSRF issue.
 
 [^1]: [Ory cli installation](https://www.ory.sh/docs/guides/cli/installation)
 [^2]: [Develop applications on your local machine](https://www.ory.sh/docs/getting-started/local-development)
