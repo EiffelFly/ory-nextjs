@@ -14,9 +14,8 @@ export const getRedirectToLoginUrl = (
   returnTo.searchParams.set("hydra_login_state", state);
 
   const redirectTo = new URL(
-    process.env.NODE_ENV === "development"
-      ? process.env.NEXT_PUBLIC_ORY_TUNNEL_URL + "/self-service/login/api"
-      : process.env.NEXT_PUBLIC_ORY_SDK_URL + "/self-service/login/api"
+    "/self-service/login/api",
+    process.env.NEXT_PUBLIC_ORY_SDK_URL
   );
   redirectTo.searchParams.set("refresh", "false");
   redirectTo.searchParams.set("return_to", returnTo.toString());

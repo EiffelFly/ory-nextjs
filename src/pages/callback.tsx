@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // login but forget to accept consent, when it exceed consent life span, the hydra endpoint
   // will response 401 and redirect us to /callback?error=
 
-  console.log("callback", context);
+  console.log("callback", context.query);
 
   if (!context.query.scope) {
     return {
@@ -73,6 +73,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // env need to get through strict check, sometime it just failed. In case we will face some weird
   // error in the future, we do some additional effort here.
   // https://github.com/vercel/next.js/issues/11993#issuecomment-617937409
+
+  console.log(exchangeTokenError);
 
   if (exchangeTokenResult) {
     // If there already have instill_token_set cookie, we have to delete it.

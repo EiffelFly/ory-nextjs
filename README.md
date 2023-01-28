@@ -1,38 +1,93 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Ory-Nextjs
 
-## Getting Started
+This repo try to implement authorization feature with Ory and Nextjs. It has following feature:
 
-First, run the development server:
+- Social auth and password login 
+- OAuth2 Authorization code flow -> Retrieve JWT token for API authorization
+- Simple login, logout, recovery flow
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+## How to set it up
+
+### Prepare Ory account and cli
+- Register a Ory Network account and create a test project
+- install ory cli by `brew install ory/tap/cli` (mac) [^1]
+- Use `ory auth` to sign in your account
+
+### Prepare OAuth2 Client
+
+- Setup new OAuth2 Client, first create a new OAuth2 client in Ory Network console with below configuration (Use custom template)
+  - Client Name: API OAuth2
+  - scope: offline_access, offline, openid
+  - Redirect uri: http:127.0.0.1:3000/callback (This is a placeholder, we will change it later because Ory Network console doesn't accept localhost. We need to update it through CLI)
+  - Grant type: Authorization Code
+  - Response type: code
+  - Authentication Method: HTTP Basic Authorization
+  - Audience: http:127.0.0.1:8080 (placeholder)
+- Update the needed field with ory cli
+
+```
+ory update oauth2-client <client_id> --project <project_id> --audience http://localhost:8080 --redirect-uri http://localhost:3000/callback --name 'API OAuth2'
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Update OAuth2 config
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```
+ory patch oauth2-config <your_project_id> \
+    --replace '/urls/consent="http://localhost:3000/consent"'
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```
+ory patch oauth2-config <your_project_id> \
+    --replace '/strategies/access_token="jwt"'
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Use our own custom ui
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- In Ory Network console, go to CUSTOMIZE -> USER INTERFACE -> CUSTOM UI
+- change these configuration
 
-## Learn More
+```
+Login UI: http://localhost:3000/login
+Registration UI: http://localhost:3000/registration
+Settings UI: http://localhost:3000/settings
+Verification UI: /ui/verification
+Recovery UI: http://localhost:3000/recovery
+Error UI: /ui/error
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Setup Social Sign-in with GitHub
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Follow Ory setup [guide](https://www.ory.sh/docs/kratos/social-signin/github)
+- use default JSON CONNECT SCHEMA
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Add necessary env variable
 
-## Deploy on Vercel
+- Add `.env.local` file at the root of this project
+- Add below env variables
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+NEXT_PUBLIC_CONSOLE_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_ORY_SDK_URL=http://localhost:4000
+OAUTH_AUDIENCE=http://localhost:8080
+OAUTH_CLIENT_ID=<your_oauth_client_id>
+OAUTH_CLIENT_SECRET=<your_oauth_client_secret>
+OAUTH_CLIENT_SCOPE=offline_access
+ORY_API_KEY=<your_ory_personal_token>
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Setup Ory Tunnel
+
+- Use `ory ls projects` to recognize your test project
+- Setup Ory tunnel [^2]
+
+```
+ory tunnel --dev --project {project.slug} \
+  http://localhost:3000
+```
+
+
+
+
+
+[^1]: [Ory cli installation](https://www.ory.sh/docs/guides/cli/installation)
+[^2]: [Develop applications on your local machine](https://www.ory.sh/docs/getting-started/local-development)

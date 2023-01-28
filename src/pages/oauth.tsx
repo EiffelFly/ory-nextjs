@@ -28,8 +28,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const redirectUrl = getRedirectToOAuth2LoginUrl();
 
-    console.log(redirectUrl);
-
     return {
       redirect: {
         destination: redirectUrl,

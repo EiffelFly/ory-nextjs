@@ -14,9 +14,7 @@ export const getRedirectToOAuth2LoginUrl = (): string => {
 
   const redirectTo = new URL(
     "/oauth2/auth",
-    process.env.NODE_ENV === "development"
-      ? process.env.NEXT_PUBLIC_ORY_TUNNEL_URL || ""
-      : process.env.NEXT_PUBLIC_ORY_SDK_URL || ""
+    process.env.NEXT_PUBLIC_ORY_SDK_URL || ""
   );
 
   redirectTo.searchParams.set("audience", process.env.OAUTH_AUDIENCE || "");
@@ -127,10 +125,7 @@ export const initOauthClinet = (): AuthorizationCode => {
       secret: process.env.OAUTH_CLIENT_SECRET,
     },
     auth: {
-      tokenHost:
-        process.env.NODE_ENV === "development"
-          ? process.env.NEXT_PUBLIC_ORY_SDK_URL || ""
-          : process.env.NEXT_PUBLIC_ORY_SDK_URL || "",
+      tokenHost: process.env.NEXT_PUBLIC_ORY_SDK_URL || "",
       tokenPath: "/oauth2/token",
     },
     http: {

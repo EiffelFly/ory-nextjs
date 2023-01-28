@@ -16,10 +16,7 @@ const axios = axiosFactory.create({
 // or on production to the custom domain you have added to your Ory project.
 const ory = new FrontendApi(
   new Configuration({
-    basePath:
-      process.env.NODE_ENV === "development"
-        ? process.env.NEXT_PUBLIC_ORY_TUNNEL_URL || ""
-        : process.env.NEXT_PUBLIC_ORY_SDK_URL || "",
+    basePath: process.env.NEXT_PUBLIC_ORY_SDK_URL || "",
   }),
   "",
   axios
@@ -27,10 +24,7 @@ const ory = new FrontendApi(
 
 const oauth = new OAuth2Api(
   new Configuration({
-    basePath:
-      process.env.NODE_ENV === "development"
-        ? process.env.NEXT_PUBLIC_ORY_TUNNEL_URL || ""
-        : process.env.NEXT_PUBLIC_ORY_SDK_URL || "",
+    basePath: process.env.NEXT_PUBLIC_ORY_SDK_URL || "",
     accessToken: process.env.ORY_API_KEY,
   }),
   "",

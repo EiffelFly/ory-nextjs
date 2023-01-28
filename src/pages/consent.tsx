@@ -52,9 +52,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   if (
     getOAuth2ConsentRequestResult.data.skip ||
-    getOAuth2ConsentRequestResult.data.client?.client_name ===
-      "Instill Cloud" ||
-    getOAuth2ConsentRequestResult.data.client?.client_name === "Instill CLI"
+    getOAuth2ConsentRequestResult.data.client?.client_name === "API OAuth2"
   ) {
     console.log(getOAuth2ConsentRequestResult.data.context);
 
