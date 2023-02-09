@@ -22,11 +22,11 @@ This repo try to implement authorization feature with Ory and Nextjs. It has fol
   - Grant type: Authorization Code
   - Response type: code
   - Authentication Method: HTTP Basic Authorization
-  - Audience: http:127.0.0.1:8080 (placeholder)
+  - Audience: https://api.summerbug.org (Be careful ory only recognize valid url here, if you set something like http://localhost:3000 it will be ignored by Ory and your accessToken's decoded aud will be empty)
 - Update the needed field with ory cli
 
 ```
-ory update oauth2-client <client_id> --project <project_id> --audience http://localhost:8080 --redirect-uri http://localhost:3000/callback --name 'API OAuth2'
+ory update oauth2-client <client_id> --project <project_id> --audience https://api.summerbug.org --redirect-uri http://localhost:3000/callback --name 'API OAuth2'
 ```
 
 ### Update OAuth2 config
