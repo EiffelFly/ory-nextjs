@@ -26,7 +26,12 @@ This repo try to implement authorization feature with Ory and Nextjs. It has fol
 - Update the needed field with ory cli
 
 ```
-ory update oauth2-client <client_id> --project <project_id> --audience https://api.summerbug.org --redirect-uri http://localhost:3000/callback --name 'API OAuth2'
+ory update oauth2-client <client_id> \
+  --project <project_id> \
+  --audience https://api.summerbud.org/v1alpha \
+  --redirect-uri http://localhost:3000/callback \
+  --name 'API OAuth2' \
+  --grant-type authorization_code,refresh_token
 ```
 
 ### Update OAuth2 config
